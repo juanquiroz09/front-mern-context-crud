@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Configuración base de axios
 const api = axios.create({
-  baseURL: "/api",
+  baseURL: process.env.REACT_APP_API_URL || "/api", // URL del backend en producción o local
 });
 
 // Helper para crear FormData
