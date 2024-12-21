@@ -6,8 +6,11 @@ import { VscEmptyWindow } from "react-icons/vsc";
 export function HomePage() {
   const { posts } = usePosts();
 
+  // Verifica que 'posts' sea un array
+  const postsToRender = Array.isArray(posts) ? posts : [];
+
   const renderPost = () => {
-    if (posts.length === 0)
+    if (postsToRender.length === 0)
       return (
         <div className="flex flex-col justify-center items-center">
           <VscEmptyWindow className="w-48 h-48 text-white" />
@@ -17,7 +20,7 @@ export function HomePage() {
 
     return (
       <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {posts.map((post) => (
+        {postsToRender.map((post) => (
           <PostCard key={post._id} post={post} />
         ))}
       </div>
