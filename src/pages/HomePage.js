@@ -1,4 +1,5 @@
 import { usePosts } from "../context/postContext";
+import { Link } from "react-router-dom";
 import { PostCard } from "../components/PostCard";
 import { VscEmptyWindow } from "react-icons/vsc";
 
@@ -11,6 +12,7 @@ export function HomePage() {
         <div className="flex flex-col justify-center items-center">
           <VscEmptyWindow className="w-48 h-48 text-white" />
           <h1 className="text-white text-2xl">There are no posts</h1>
+          <Link to="/create-post" className="text-blue-500 mt-4">Create a new post</Link>
         </div>
       );
 
@@ -36,7 +38,6 @@ export function HomePage() {
           Create Post
         </Link>
       </header>
-
       {renderPost()}
     </main>
   );
