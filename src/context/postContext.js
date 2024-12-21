@@ -17,43 +17,27 @@ export const usePosts = () => {
 
 export const PostProvider = ({ children }) => {
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      setLoading(true);
-      try {
-        const res = await getPostsRequest();
-        setPosts(res.data);
-      } catch (error) {
-        setError("Error fetching posts");
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPosts();
+    (async () => {
+      const res = await getPostsRequest();
+      setPosts(res.data);
+    })();
   }, []);
 
   const deletePost = async (id) => {
-    try {
-      const res = await deletePostRequest(id);
-      if (res.status === 204) {
-        setPosts((prevPosts) => prevPosts.filter((post) => post._id !== id));
-      }
-    } catch (error) {
-      console.error("Error deleting post:", error);
+    const res = await deletePostRequest(id);
+    if (res.status === 204) {
+      setPosts(posts.filter((post) => post._id !== id));
     }
   };
 
   const createPost = async (post) => {
     try {
       const res = await createPostRequest(post);
-      setPosts((prevPosts) => [...prevPosts, res.data]);
+      setPosts([...posts, res.data]);
     } catch (error) {
-      console.error("Error creating post:", error);
+      console.error(error);
     }
   };
 
@@ -62,32 +46,22 @@ export const PostProvider = ({ children }) => {
       const res = await getPostRequest(id);
       return res.data;
     } catch (error) {
-      console.error("Error getting post:", error);
+      console.error(error);
     }
   };
 
   const updatePost = async (id, post) => {
     try {
       const res = await updatePostRequest(id, post);
-      setPosts((prevPosts) =>
-        prevPosts.map((item) => (item._id === id ? res.data : item))
-      );
+      setPosts(posts.map((post) => (post._id === id ? res.data : post)));
     } catch (error) {
-      console.error("Error updating post:", error);
+      console.error(error);
     }
   };
 
   return (
     <postContext.Provider
-      value={{
-        posts,
-        deletePost,
-        createPost,
-        getPost,
-        updatePost,
-        loading,
-        error,
-      }}
+      value={{ posts, deletePost, createPost, getPost, updatePost }}
     >
       {children}
     </postContext.Provider>

@@ -6,15 +6,12 @@ import { VscEmptyWindow } from "react-icons/vsc";
 export function HomePage() {
   const { posts } = usePosts();
 
-  console.log("Posts:", posts); // Agrega este console.log para depurar
-
   const renderPost = () => {
-    if (!Array.isArray(posts) || posts.length === 0)
+    if (posts.length === 0)
       return (
         <div className="flex flex-col justify-center items-center">
           <VscEmptyWindow className="w-48 h-48 text-white" />
           <h1 className="text-white text-2xl">There are no posts</h1>
-          <Link to="/create-post" className="text-blue-500 mt-4">Create a new post</Link>
         </div>
       );
 
@@ -40,6 +37,7 @@ export function HomePage() {
           Create Post
         </Link>
       </header>
+
       {renderPost()}
     </main>
   );
