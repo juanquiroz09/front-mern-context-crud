@@ -6,6 +6,8 @@ import { VscEmptyWindow } from "react-icons/vsc";
 export function HomePage() {
   const { posts } = usePosts();
 
+  console.log("Posts:", posts); // Agrega este console.log para depurar
+
   const renderPost = () => {
     if (!Array.isArray(posts) || posts.length === 0)
       return (
